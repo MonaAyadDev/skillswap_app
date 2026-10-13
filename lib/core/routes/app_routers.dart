@@ -1,12 +1,15 @@
 import 'package:go_router/go_router.dart';
 import 'package:skillswap/core/routes/routes.dart';
+import 'package:skillswap/features/auth/presentation/screens/login_screen.dart';
+import 'package:skillswap/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:skillswap/features/profile/presentation/screens/profile_setup_screen.dart';
 import '../widgets/placeholder_screen.dart';
 
 class AppRouter {
   AppRouter._();
 
   static final GoRouter router = GoRouter(
-    initialLocation: AppRoutes.splash,
+    initialLocation: AppRoutes.login,
     routes: [
       GoRoute(
         path: AppRoutes.splash,
@@ -19,16 +22,15 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.login,
-        builder: (context, state) => const PlaceholderScreen(title: 'Login'),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.signUp,
-        builder: (context, state) => const PlaceholderScreen(title: 'Sign Up'),
+        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: AppRoutes.profileSetup,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Profile Setup'),
+        builder: (context, state) => const ProfileSetupScreen(),
       ),
       GoRoute(
         path: AppRoutes.chooseSkills,
