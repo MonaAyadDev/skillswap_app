@@ -1,7 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:skillswap/core/routes/routes.dart';
+import 'package:skillswap/core/models/user_model.dart';
 import 'package:skillswap/features/auth/presentation/screens/login_screen.dart';
 import 'package:skillswap/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:skillswap/features/discover/presentation/discover_view.dart';
+import 'package:skillswap/features/home/presentation/home_view.dart';
+import 'package:skillswap/features/onboarding/onboarding_view.dart';
+import 'package:skillswap/features/onboarding/splash_view.dart';
+import 'package:skillswap/features/profile/presentation/edit_profile_view.dart';
+import 'package:skillswap/features/profile/presentation/profile_view.dart';
 import 'package:skillswap/features/profile/presentation/screens/profile_setup_screen.dart';
 import '../widgets/placeholder_screen.dart';
 
@@ -13,12 +20,11 @@ class AppRouter {
     routes: [
       GoRoute(
         path: AppRoutes.splash,
-        builder: (context, state) => const PlaceholderScreen(title: 'Splash'),
+        builder: (context, state) => const SplashView(),
       ),
       GoRoute(
         path: AppRoutes.onboarding,
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Onboarding'),
+        builder: (context, state) => const OnboardingView(),
       ),
       GoRoute(
         path: AppRoutes.login,
@@ -39,16 +45,17 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => const PlaceholderScreen(title: 'Home'),
+        builder: (context, state) => const HomeView(),
       ),
       GoRoute(
         path: AppRoutes.discover,
-        builder: (context, state) => const PlaceholderScreen(title: 'Discover'),
+        builder: (context, state) => const DiscoverView(),
       ),
       GoRoute(
         path: AppRoutes.userProfile,
-        builder: (context, state) =>
-            PlaceholderScreen(title: 'User ${state.pathParameters['id']}'),
+        builder: (context, state) => ProfileView(
+          user: sampleProfile(uid: state.pathParameters['id']!),
+        ),
       ),
       GoRoute(
         path: AppRoutes.skillRequest,
@@ -76,7 +83,16 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.myProfile,
         builder: (context, state) =>
-            const PlaceholderScreen(title: 'My Profile'),
+            ProfileView(user: sampleProfile(), isOwnProfile: true),
+      ),
+      GoRoute(
+        path: AppRoutes.editProfile,
+        builder: (context, state) {
+          final extra = state.extra;
+          return EditProfileView(
+            initialUser: extra is UserModel ? extra : sampleProfile(),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.settings,
