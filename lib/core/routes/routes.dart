@@ -16,6 +16,8 @@ class AppRoutes {
   static const chat = '/chat/:matchId';
   static const notifications = '/notifications';
   static const myProfile = '/my-profile';
+  static const editProfile = '/edit-profile';
   static const settings = '/settings';
+
   static const mainNavigation = '/mainNavigation';
 }

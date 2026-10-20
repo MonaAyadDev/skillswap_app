@@ -5,7 +5,8 @@ class SocialButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
 
-  const SocialButton({super.key, 
+  const SocialButton({
+    super.key,
     required this.icon,
     required this.label,
     required this.onTap,
@@ -17,9 +18,7 @@ class SocialButton extends StatelessWidget {
       onPressed: onTap,
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         side: const BorderSide(color: Colors.black12),
       ),
       child: Row(
