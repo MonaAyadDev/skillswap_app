@@ -1,31 +1,55 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:skillswap/core/routes/app_routers.dart';
-import 'core/di/service_locator.dart';
-import 'core/theme/app_theme.dart';
-import 'firebase_options.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skillswap/features/auth/presentation/screens/login_screen.dart';
+import 'package:skillswap/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:skillswap/features/home/presentation/screens/mainNavigation.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+class AppRouter {
+  static final GoRouter router = GoRouter(
+    initialLocation: '/main',
+    refreshListenable: GoRouterRefreshStream(
+      FirebaseAuth.instance.authStateChanges(),
+    ),
+    redirect: (context, state) {
+      final isLoggedIn = FirebaseAuth.instance.currentUser != null;
+      final isAuthRoute =
+          state.matchedLocation == '/login' ||
+          state.matchedLocation == '/signup';
+
+      if (!isLoggedIn && !isAuthRoute) return '/login';
+
+      if (isLoggedIn && isAuthRoute) return '/main';
+
+      return null;
+    },
+    routes: [
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+      GoRoute(
+        path: '/signup',
+        builder: (context, state) => const SignUpScreen(),
+      ),
+      GoRoute(
+        path: '/main',
+        builder: (context, state) => const MainNavigation(),
+      ),
+    ],
   );
-  await setupServiceLocator();
-  runApp(const SkillSwapApp());
 }
 
-class SkillSwapApp extends StatelessWidget {
-  const SkillSwapApp({super.key});
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen((_) => notifyListeners());
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'SkillSwap',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.light,
-      routerConfig: AppRouter.router,
-    );
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

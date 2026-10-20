@@ -17,4 +17,5 @@ class AppRoutes {
   static const notifications = '/notifications';
   static const myProfile = '/my-profile';
   static const settings = '/settings';
+  static const mainNavigation = '/mainNavigation';
 }
