@@ -70,9 +70,6 @@ class AppRouter {
         path: AppRoutes.signUp,
         builder: (context, state) => const SignUpScreen(),
       ),
-<<<<<<< HEAD
-      // ... باقي الـ routes زي ما هي بدون تغيير ...
-=======
       GoRoute(
         path: AppRoutes.profileSetup,
         builder: (context, state) => const ProfileSetupScreen(),
@@ -92,9 +89,8 @@ class AppRouter {
       ),
       GoRoute(
         path: AppRoutes.userProfile,
-        builder: (context, state) => ProfileView(
-          user: sampleProfile(uid: state.pathParameters['id']!),
-        ),
+        builder: (context, state) =>
+            ProfileView(user: sampleProfile(uid: state.pathParameters['id']!)),
       ),
       GoRoute(
         path: AppRoutes.skillRequest,
@@ -137,7 +133,6 @@ class AppRouter {
         path: AppRoutes.settings,
         builder: (context, state) => const PlaceholderScreen(title: 'Settings'),
       ),
->>>>>>> origin/develop
     ],
   );
 }

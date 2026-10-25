@@ -18,6 +18,5 @@ class AppRoutes {
   static const myProfile = '/my-profile';
   static const editProfile = '/edit-profile';
   static const settings = '/settings';
-
   static const mainNavigation = '/mainNavigation';
 }
