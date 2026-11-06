@@ -56,9 +56,9 @@ class _SignUpViewState extends State<_SignUpView> {
         return;
       }
       context.read<AuthCubit>().signUp(
-        _nameController.text,
-        _emailController.text,
-        _passwordController.text,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
       );
     }
   }
