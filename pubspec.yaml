@@ -23,6 +23,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   intl: ^0.20.2
   flutter_launcher_icons: ^0.14.4
+  flutter_screenutil: ^5.9.0
 
 dev_dependencies:
   flutter_test:
@@ -32,9 +33,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/app_icon.png"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "assets/images/app_icon.png"
+  image_path: "assets/ic_launcher_foreground.png"
+  adaptive_icon_background: "assets/ic_launcher_background.png"
+  adaptive_icon_foreground: "assets/ic_launcher_foreground.png"
 
 flutter:
   uses-material-design: true

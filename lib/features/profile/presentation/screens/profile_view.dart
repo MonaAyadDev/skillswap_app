@@ -1,12 +1,21 @@
+// lib/features/profile/presentation/profile_view.dart
 import 'package:flutter/material.dart';
+
 import 'package:go_router/go_router.dart';
+
 import 'package:skillswap/core/constants/app_color.dart';
 import 'package:skillswap/core/localization/app_translations.dart';
 import 'package:skillswap/core/models/user_model.dart';
 import 'package:skillswap/core/routes/routes.dart';
+
+
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skillswap/features/profile/presentation/widgets/identity_card_widget.dart';
 import 'package:skillswap/features/profile/presentation/widgets/profile_section.dart';
 import 'package:skillswap/features/profile/presentation/widgets/skill_list.dart';
+import 'package:skillswap/features/profile/presentation/widgets/profile_stats_widget.dart';
+import 'package:skillswap/features/profile/presentation/widgets/profile_actions_widget.dart';
 
 class ProfileView extends StatefulWidget {
   final UserModel? user;
@@ -21,8 +30,7 @@ class ProfileView extends StatefulWidget {
   static const UserModel defaultCurrentUser = UserModel(
     uid: 'current_user',
     name: 'Elena Rostova',
-    bio:
-        'Product designer passionate about typography, Figma systems, and watercolor painting. Excited to teach UI design in exchange for Spanish conversational practice and coding.',
+    bio: 'Product designer passionate about typography, Figma systems, and watercolor painting. Excited to teach UI design in exchange for Spanish conversational practice and coding.',
     country: 'San Francisco, CA (United States)',
     teachSkills: ['UI/UX Design', 'Figma Systems', 'Prototyping', 'Design Thinking'],
     learnSkills: ['Flutter Development', 'Spanish Conversational', 'Photography'],
@@ -42,8 +50,13 @@ class _ProfileViewState extends State<ProfileView> {
       AppRoutes.editProfile,
       extra: _user,
     );
-    if (updatedUser != null && mounted) {
-      setState(() => _user = updatedUser);
+
+    if (!mounted) return;
+
+    if (updatedUser != null) {
+      setState(() {
+        _user = updatedUser;
+      });
     }
   }
 
@@ -59,10 +72,12 @@ class _ProfileViewState extends State<ProfileView> {
           style: TextStyle(
             color: AppColors.textPrimaryOf(context),
             fontWeight: FontWeight.bold,
-            fontSize: 20,
+            fontSize: 20.sp,
           ),
         ),
-        iconTheme: IconThemeData(color: AppColors.textPrimaryOf(context)),
+        iconTheme: IconThemeData(
+          color: AppColors.textPrimaryOf(context),
+        ),
         actions: [
           if (widget.isOwnProfile) ...[
             IconButton(
@@ -82,48 +97,36 @@ class _ProfileViewState extends State<ProfileView> {
         top: false,
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final horizontalPadding = constraints.maxWidth >= 700 ? 32.0 : 20.0;
+            final horizontalPadding = constraints.maxWidth >= 700 ? 32.0 : 16.0;
+
             return Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 760),
                 child: ListView(
-                  padding: EdgeInsets.fromLTRB(
-                    horizontalPadding,
-                    16,
-                    horizontalPadding,
-                    32,
-                  ),
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                  padding: EdgeInsets.fromLTRB(horizontalPadding, 16, horizontalPadding, 32),
                   children: [
                     IdentityCardWidget(user: _user),
                     const SizedBox(height: 16),
-
-                    // Stats summary card
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceOf(context),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.borderOf(context)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          _buildStatItem(context.tr('swaps_done'), '14', AppColors.primary),
-                          Container(width: 1, height: 30, color: AppColors.dividerOf(context)),
-                          _buildStatItem(context.tr('rating'), '${_user.ratingAvg} ★', AppColors.warning),
-                          Container(width: 1, height: 30, color: AppColors.dividerOf(context)),
-                          _buildStatItem(context.tr('reviews'), '${_user.ratingCount}', AppColors.success),
-                        ],
-                      ),
+                    
+                    // Stats Summary Widget
+                    ProfileStatsWidget(
+                      swapsCount: '14',
+                      ratingAvg: _user.ratingAvg,
+                      ratingCount: _user.ratingCount,
                     ),
-
                     const SizedBox(height: 16),
+
+                    // About Me
                     ProfileSection(
                       title: context.tr('about_me'),
                       child: Text(
                         _user.bio.isEmpty
-                            ? (context.isArabic ? 'أضف نبذة قصيرة لتعريف الآخرين باهتماماتك.' : 'Add a short introduction to tell others about yourself.')
+                            ? (context.isArabic
+                                ? 'أضف نبذة قصيرة لتعريف الآخرين باهتماماتك.'
+                                : 'Add a short introduction to tell others about yourself.')
                             : _user.bio,
+                        softWrap: true,
                         style: TextStyle(
                           color: AppColors.textSecondaryOf(context),
                           fontSize: 14,
@@ -132,6 +135,8 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+                    // Skills I Teach
                     ProfileSection(
                       title: context.tr('skills_teach'),
                       child: SkillList(
@@ -144,6 +149,8 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+                    // Skills I Want to Learn
                     ProfileSection(
                       title: context.tr('skills_learn'),
                       child: SkillList(
@@ -155,44 +162,12 @@ class _ProfileViewState extends State<ProfileView> {
                             : AppColors.infoLight,
                       ),
                     ),
+
                     if (widget.isOwnProfile) ...[
                       const SizedBox(height: 24),
-                      SizedBox(
-                        height: 52,
-                        child: ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.textOnPrimary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          onPressed: _editProfile,
-                          icon: const Icon(Icons.edit_outlined),
-                          label: Text(
-                            context.tr('edit_profile'),
-                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                        height: 48,
-                        child: OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.textPrimaryOf(context),
-                            side: BorderSide(color: AppColors.borderOf(context)),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          onPressed: () => context.push(AppRoutes.settings),
-                          icon: const Icon(Icons.tune_rounded),
-                          label: Text(
-                            context.tr('app_settings'),
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                        ),
+                      ProfileActionsWidget(
+                        onEditProfile: _editProfile,
+                        onOpenSettings: () => context.push(AppRoutes.settings),
                       ),
                     ],
                   ],
@@ -202,26 +177,6 @@ class _ProfileViewState extends State<ProfileView> {
           },
         ),
       ),
-    );
-  }
-
-  Widget _buildStatItem(String label, String value, Color color) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: TextStyle(color: AppColors.textSecondaryOf(context), fontSize: 12),
-        ),
-      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skillswap/core/constants/app_color.dart';
 import 'package:skillswap/core/localization/app_translations.dart';
 import 'package:skillswap/features/discover/presentation/discover_view.dart';
@@ -46,7 +47,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.06),
-              blurRadius: 16,
+              blurRadius: 16.r,
               offset: const Offset(0, -4),
             ),
           ],
@@ -78,7 +79,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               },
               backgroundColor: AppColors.surfaceOf(context),
               elevation: 0,
-              height: 65,
+              height: 65.h,
               destinations: [
                 NavigationDestination(
                   icon: const Icon(Icons.home_outlined),

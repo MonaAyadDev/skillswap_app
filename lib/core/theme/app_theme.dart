@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skillswap/core/constants/app_color.dart';
 
 class AppTheme {
@@ -36,7 +37,7 @@ class AppTheme {
         ),
         titleTextStyle: TextStyle(
           fontFamily: fontFamily,
-          fontSize: 19,
+          fontSize: 19.sp,
           fontWeight: FontWeight.bold,
           color: isDark ? AppColors.textPrimaryDark : AppColors.textPrimary,
         ),
@@ -45,7 +46,7 @@ class AppTheme {
         color: isDark ? AppColors.surfaceDark : AppColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
           side: BorderSide(
             color: isDark ? AppColors.borderDark : AppColors.border,
           ),
@@ -53,7 +54,7 @@ class AppTheme {
       ),
       dividerTheme: DividerThemeData(
         color: isDark ? AppColors.dividerDark : AppColors.divider,
-        thickness: 1,
+        thickness: 1.r,
       ),
       listTileTheme: ListTileThemeData(
         iconColor: isDark ? AppColors.iconDark : AppColors.icon,
@@ -62,7 +63,7 @@ class AppTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: isDark ? AppColors.surfaceDark : AppColors.surface,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -76,14 +77,14 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          minimumSize: const Size.fromHeight(50),
+          minimumSize: Size.fromHeight(50.r),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
           textStyle: TextStyle(
             fontFamily: fontFamily,
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            fontSize: 15.sp,
           ),
         ),
       ),
@@ -92,12 +93,12 @@ class AppTheme {
           foregroundColor: AppColors.primary,
           side: const BorderSide(color: AppColors.primary),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
           textStyle: TextStyle(
             fontFamily: fontFamily,
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 14.sp,
           ),
         ),
       ),
