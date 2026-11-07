@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skillswap/core/constants/app_color.dart';
+import 'package:skillswap/core/constants/images_app.dart';
 import 'package:skillswap/core/di/service_locator.dart';
 import 'package:skillswap/core/routes/routes.dart';
 import 'package:skillswap/core/utils/validators.dart';
-import 'package:skillswap/core/widgets/__social_button.dart';
 import 'package:skillswap/core/widgets/app_button.dart';
 import 'package:skillswap/core/widgets/app_text_field.dart';
+import 'package:skillswap/features/auth/presentation/widgets/build_social_button.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
@@ -45,9 +47,9 @@ class _LoginViewState extends State<_LoginView> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthCubit>().login(
-            _emailController.text,
-            _passwordController.text,
-          );
+        _emailController.text,
+        _passwordController.text,
+      );
     }
   }
 
@@ -83,14 +85,16 @@ class _LoginViewState extends State<_LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthSuccess) {
               context.go(AppRoutes.home);
             } else if (state is AuthError) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             } else if (state is AuthResetSent) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Reset link sent to your email')),
@@ -112,13 +116,16 @@ class _LoginViewState extends State<_LoginView> {
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
                       'Continue your skill exchange journey with your peers.',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 32),
                     const Text(
@@ -126,7 +133,7 @@ class _LoginViewState extends State<_LoginView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Colors.black87,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -146,7 +153,7 @@ class _LoginViewState extends State<_LoginView> {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 13,
-                            color: Colors.black87,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                         TextButton(
@@ -159,7 +166,7 @@ class _LoginViewState extends State<_LoginView> {
                           child: const Text(
                             'Forgot?',
                             style: TextStyle(
-                              color: Color(0xFF6C28F5),
+                              color: AppColors.primary,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -182,7 +189,7 @@ class _LoginViewState extends State<_LoginView> {
                           width: 24,
                           child: Checkbox(
                             value: _keepActive,
-                            activeColor: const Color(0xFF6C28F5),
+                            activeColor: AppColors.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
@@ -196,7 +203,10 @@ class _LoginViewState extends State<_LoginView> {
                         const SizedBox(width: 8),
                         const Text(
                           'Keep me active for swaps',
-                          style: TextStyle(fontSize: 13, color: Colors.black87),
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ],
                     ),
@@ -209,38 +219,53 @@ class _LoginViewState extends State<_LoginView> {
                     const SizedBox(height: 24),
                     Row(
                       children: const [
-                        Expanded(child: Divider(color: Colors.grey, thickness: 0.5)),
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             'OR SWAP WITH',
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.grey,
+                              color: AppColors.textMuted,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                        Expanded(child: Divider(color: Colors.grey, thickness: 0.5)),
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
-                        SocialButton(
-                          icon: Icons.g_mobiledata,
+                        BuildSocialButton(
+                          assetPath: AppImages.google,
                           label: 'Google',
+                          isSvg: true,
                           onTap: () {},
                         ),
-                        SocialButton(
-                          icon: Icons.apple,
+                        BuildSocialButton(
+                          assetPath: AppImages.apple,
                           label: 'Apple',
+                          isSvg: false,
                           onTap: () {},
                         ),
-                        SocialButton(
-                          icon: Icons.business,
+                        BuildSocialButton(
+                          assetPath: AppImages.linkedin,
                           label: 'LinkedIn',
+                          isSvg: true,
                           onTap: () {},
                         ),
                       ],
@@ -251,14 +276,17 @@ class _LoginViewState extends State<_LoginView> {
                       children: [
                         const Text(
                           "Don't have an account? ",
-                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go(AppRoutes.signUp),
                           child: const Text(
                             'Create Account',
                             style: TextStyle(
-                              color: Color(0xFF6C28F5),
+                              color: AppColors.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),

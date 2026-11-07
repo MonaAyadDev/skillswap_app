@@ -5,7 +5,7 @@ class MessageModel extends Equatable {
   final String id;
   final String senderId;
   final String text;
-  final String type; // 'text' دلوقتي، ولاحقًا 'image' أو 'file'
+  final String type; 
   final DateTime? createdAt;
 
   const MessageModel({

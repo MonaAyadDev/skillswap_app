@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skillswap/core/constants/app_color.dart';
+import 'package:skillswap/core/constants/images_app.dart';
 import 'package:skillswap/core/di/service_locator.dart';
 import 'package:skillswap/core/routes/routes.dart';
 import 'package:skillswap/core/utils/validators.dart';
-import 'package:skillswap/core/widgets/__social_button.dart';
 import 'package:skillswap/core/widgets/app_button.dart';
 import 'package:skillswap/core/widgets/app_text_field.dart';
 import 'package:skillswap/core/widgets/back_arrow.dart';
+import 'package:skillswap/features/auth/presentation/widgets/build_social_button.dart';
 import '../cubit/auth_cubit.dart';
 import '../cubit/auth_state.dart';
 
@@ -66,6 +68,7 @@ class _SignUpViewState extends State<_SignUpView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
@@ -86,21 +89,23 @@ class _SignUpViewState extends State<_SignUpView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // زر الرجوع للخلف
-                    BackArrow(),
+                    const BackArrow(),
                     const SizedBox(height: 16),
                     const Text(
                       'Create Your Account',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
                     const Text(
                       'Start sharing your skills and learning something new with vetted peers.',
-                      style: TextStyle(color: Colors.grey, fontSize: 14),
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 24),
                     const Text(
@@ -108,7 +113,7 @@ class _SignUpViewState extends State<_SignUpView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Colors.black87,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -124,7 +129,7 @@ class _SignUpViewState extends State<_SignUpView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Colors.black87,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -141,7 +146,7 @@ class _SignUpViewState extends State<_SignUpView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Colors.black87,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -158,7 +163,7 @@ class _SignUpViewState extends State<_SignUpView> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
-                        color: Colors.black87,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -180,7 +185,7 @@ class _SignUpViewState extends State<_SignUpView> {
                           width: 24,
                           child: Checkbox(
                             value: _agreeToTerms,
-                            activeColor: const Color(0xFF6C28F5),
+                            activeColor: AppColors.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(4),
                             ),
@@ -199,18 +204,16 @@ class _SignUpViewState extends State<_SignUpView> {
                                 'I agree to SkillSwap\'s ',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.black87,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  // TODO: Navigate to Terms of Service
-                                },
+                                onTap: () {},
                                 child: const Text(
                                   'Terms of Service',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xFF6C28F5),
+                                    color: AppColors.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -219,18 +222,16 @@ class _SignUpViewState extends State<_SignUpView> {
                                 ' and ',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.black87,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  // TODO: Navigate to Community Guidelines
-                                },
+                                onTap: () {},
                                 child: const Text(
                                   'Community Guidelines',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Color(0xFF6C28F5),
+                                    color: AppColors.primary,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -239,7 +240,7 @@ class _SignUpViewState extends State<_SignUpView> {
                                 '.',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.black87,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -257,7 +258,10 @@ class _SignUpViewState extends State<_SignUpView> {
                     Row(
                       children: const [
                         Expanded(
-                          child: Divider(color: Colors.grey, thickness: 0.5),
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -265,33 +269,41 @@ class _SignUpViewState extends State<_SignUpView> {
                             'OR SIGN UP WITH',
                             style: TextStyle(
                               fontSize: 11,
-                              color: Colors.grey,
+                              color: AppColors.textMuted,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                         Expanded(
-                          child: Divider(color: Colors.grey, thickness: 0.5),
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
-                        SocialButton(
-                          icon: Icons.g_mobiledata,
+                        BuildSocialButton(
+                          assetPath: AppImages.google,
                           label: 'Google',
+                          isSvg: true,
                           onTap: () {},
                         ),
-                        SocialButton(
-                          icon: Icons.apple,
+                        BuildSocialButton(
+                          assetPath: AppImages.apple,
                           label: 'Apple',
+                          isSvg: false,
                           onTap: () {},
                         ),
-                        SocialButton(
-                          icon: Icons.business,
+                        BuildSocialButton(
+                          assetPath: AppImages.linkedin,
                           label: 'LinkedIn',
+                          isSvg: true,
                           onTap: () {},
                         ),
                       ],
@@ -302,14 +314,17 @@ class _SignUpViewState extends State<_SignUpView> {
                       children: [
                         const Text(
                           'Already have an account? ',
-                          style: TextStyle(color: Colors.grey, fontSize: 13),
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go(AppRoutes.login),
                           child: const Text(
                             'Log In',
                             style: TextStyle(
-                              color: Color(0xFF6C28F5),
+                              color: AppColors.primary,
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),

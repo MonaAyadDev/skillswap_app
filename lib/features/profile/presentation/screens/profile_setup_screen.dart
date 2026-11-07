@@ -92,7 +92,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // الشريط العلوي (Header bar)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -160,8 +159,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // صورة الملف الشخصي والزر المصغر
                     Center(
                       child: Column(
                         children: [
@@ -228,7 +225,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                     ),
                     const SizedBox(height: 24),
 
-                    // الاسم والتحقق
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
@@ -269,7 +265,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                     ),
                     const SizedBox(height: 16),
 
-                    // الموقع الجغرافي
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: const [
@@ -296,7 +291,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                     ),
                     const SizedBox(height: 16),
 
-                    // الوصف الشخصي (Bio)
                     AppTextField(
                       label: 'Product designer passionate about...',
                       controller: _bioController,
@@ -304,7 +298,6 @@ class _ProfileSetupViewState extends State<_ProfileSetupView> {
                     ),
                     const SizedBox(height: 28),
 
-                    // أزرار المتابعة والتخطي
                     AppButton(
                       text: 'Continue to Skills →',
                       isLoading: isLoading,

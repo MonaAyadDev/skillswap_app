@@ -26,7 +26,6 @@ class UserModel extends Equatable {
     this.createdAt,
   });
 
-  /// [id] هو رقم المستند (uid) وبيجي من Firestore منفصل عن الـ Map
   factory UserModel.fromMap(Map<String, dynamic> map, String id) {
     return UserModel(
       uid: id,
@@ -42,8 +41,6 @@ class UserModel extends Equatable {
     );
   }
 
-  /// مفيهاش uid ولا createdAt:
-  /// الـ uid هو اسم المستند، والـ createdAt بيتحط وقت الإنشاء بـ FieldValue.serverTimestamp()
   Map<String, dynamic> toMap() => {
         'name': name,
         'bio': bio,
@@ -54,6 +51,32 @@ class UserModel extends Equatable {
         'ratingAvg': ratingAvg,
         'ratingCount': ratingCount,
       };
+
+  UserModel copyWith({
+    String? uid,
+    String? name,
+    String? bio,
+    String? country,
+    String? photoUrl,
+    List<String>? teachSkills,
+    List<String>? learnSkills,
+    double? ratingAvg,
+    int? ratingCount,
+    DateTime? createdAt,
+  }) {
+    return UserModel(
+      uid: uid ?? this.uid,
+      name: name ?? this.name,
+      bio: bio ?? this.bio,
+      country: country ?? this.country,
+      photoUrl: photoUrl ?? this.photoUrl,
+      teachSkills: teachSkills ?? this.teachSkills,
+      learnSkills: learnSkills ?? this.learnSkills,
+      ratingAvg: ratingAvg ?? this.ratingAvg,
+      ratingCount: ratingCount ?? this.ratingCount,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
 
   @override
   List<Object?> get props => [

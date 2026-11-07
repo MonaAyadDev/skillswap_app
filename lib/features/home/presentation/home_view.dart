@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skillswap/core/constants/app_color.dart';
+import 'package:skillswap/core/localization/app_translations.dart';
 import 'package:skillswap/core/routes/routes.dart';
 
 class HomeView extends StatefulWidget {
@@ -17,14 +18,18 @@ class _HomeViewState extends State<HomeView> {
   static const List<_SkillCategory> _categories = [
     _SkillCategory(
       title: 'Design & Creative',
+      titleAr: 'التصميم والإبداع',
       subtitle: 'Create something remarkable',
+      subtitleAr: 'أتقن واجهات المستخدم والرسوم',
       icon: Icons.palette_outlined,
       color: Color(0xFF8B6DE9),
       backgroundColor: Color(0xFFF1EDFF),
     ),
     _SkillCategory(
       title: 'Tech & Code',
+      titleAr: 'البرمجة والتقنية',
       subtitle: 'Build your next big idea',
+      subtitleAr: 'تعلم التطبيقات والويب باحترافية',
       icon: Icons.code_rounded,
       color: Color(0xFF4588DB),
       backgroundColor: Color(0xFFEAF3FF),
@@ -64,22 +69,30 @@ class _HomeViewState extends State<HomeView> {
   static const List<_TrendingSkill> _trendingSkills = [
     _TrendingSkill(
       name: 'UI/UX Design',
+      nameAr: 'تصميم واجهات المستخدم UI/UX',
       learners: '1.2k learners',
+      learnersAr: '١٫٢ ألف متعلم',
       icon: Icons.design_services_outlined,
     ),
     _TrendingSkill(
       name: 'Python',
+      nameAr: 'لغة بايثون Python',
       learners: '980 learners',
+      learnersAr: '٩٨٠ متعلم',
       icon: Icons.terminal_rounded,
     ),
     _TrendingSkill(
       name: 'Photography',
+      nameAr: 'التصوير الاحترافي',
       learners: '760 learners',
+      learnersAr: '٧٦٠ متعلم',
       icon: Icons.photo_camera_outlined,
     ),
     _TrendingSkill(
       name: 'Public Speaking',
+      nameAr: 'الإلقاء والتحدث العام',
       learners: '640 learners',
+      learnersAr: '٦٤٠ متعلم',
       icon: Icons.record_voice_over_outlined,
     ),
   ];
@@ -96,7 +109,9 @@ class _HomeViewState extends State<HomeView> {
     if (_normalizedQuery.isEmpty) return _categories;
     return _categories
         .where(
-          (category) => category.title.toLowerCase().contains(_normalizedQuery),
+          (category) =>
+              category.title.toLowerCase().contains(_normalizedQuery) ||
+              category.titleAr.toLowerCase().contains(_normalizedQuery),
         )
         .toList();
   }
@@ -115,14 +130,16 @@ class _HomeViewState extends State<HomeView> {
   List<_TrendingSkill> get _visibleTrendingSkills {
     if (_normalizedQuery.isEmpty) return _trendingSkills;
     return _trendingSkills
-        .where((skill) => skill.name.toLowerCase().contains(_normalizedQuery))
+        .where((skill) =>
+            skill.name.toLowerCase().contains(_normalizedQuery) ||
+            skill.nameAr.toLowerCase().contains(_normalizedQuery))
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.backgroundOf(context),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -148,24 +165,24 @@ class _HomeViewState extends State<HomeView> {
                           _buildSearchBar(),
                           const SizedBox(height: 32),
                           _buildSectionHeader(
-                            title: 'Explore Categories',
-                            actionLabel: 'See all',
+                            title: context.tr('explore_categories'),
+                            actionLabel: context.tr('see_all'),
                             onAction: () => context.go(AppRoutes.discover),
                           ),
                           const SizedBox(height: 16),
                           _buildCategories(),
                           const SizedBox(height: 32),
                           _buildSectionHeader(
-                            title: 'Recommended Matches',
-                            actionLabel: 'See all',
+                            title: context.tr('recommended_matches'),
+                            actionLabel: context.tr('see_all'),
                             onAction: () => context.go(AppRoutes.matches),
                           ),
                           const SizedBox(height: 16),
                           _buildRecommendedMatches(),
                           const SizedBox(height: 32),
                           _buildSectionHeader(
-                            title: 'Trending Skills',
-                            actionLabel: 'Explore',
+                            title: context.tr('trending_skills'),
+                            actionLabel: context.isArabic ? 'استكشف' : 'Explore',
                             onAction: () => context.go(AppRoutes.discover),
                           ),
                           const SizedBox(height: 16),
@@ -191,16 +208,16 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Good morning,',
+                context.tr('good_morning'),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.textSecondary,
+                  color: AppColors.textSecondaryOf(context),
                 ),
               ),
               const SizedBox(height: 4),
               Text(
-                'Find your next skill',
+                context.tr('find_next_skill'),
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.textPrimary,
+                  color: AppColors.textPrimaryOf(context),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -208,11 +225,11 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         IconButton(
-          onPressed: () => context.go(AppRoutes.notifications),
+          onPressed: () => context.push(AppRoutes.notifications),
           tooltip: 'Notifications',
           style: IconButton.styleFrom(
-            backgroundColor: AppColors.surface,
-            foregroundColor: AppColors.textPrimary,
+            backgroundColor: AppColors.surfaceOf(context),
+            foregroundColor: AppColors.textPrimaryOf(context),
             fixedSize: const Size(48, 48),
           ),
           icon: const Icon(Icons.notifications_none_rounded),
@@ -226,9 +243,10 @@ class _HomeViewState extends State<HomeView> {
       controller: _searchController,
       onChanged: (value) => setState(() => _searchQuery = value),
       textInputAction: TextInputAction.search,
+      style: TextStyle(color: AppColors.textPrimaryOf(context)),
       decoration: InputDecoration(
-        hintText: 'Search skills or people',
-        prefixIcon: const Icon(Icons.search_rounded),
+        hintText: context.tr('search_placeholder'),
+        prefixIcon: Icon(Icons.search_rounded, color: AppColors.textMutedOf(context)),
         suffixIcon: _searchQuery.isEmpty
             ? null
             : IconButton(
@@ -240,17 +258,17 @@ class _HomeViewState extends State<HomeView> {
                 icon: const Icon(Icons.close_rounded),
               ),
         filled: true,
-        fillColor: AppColors.surface,
-        hintStyle: const TextStyle(color: AppColors.textMuted),
-        prefixIconColor: AppColors.textMuted,
+        fillColor: AppColors.surfaceOf(context),
+        hintStyle: TextStyle(color: AppColors.textMutedOf(context)),
+        prefixIconColor: AppColors.textMutedOf(context),
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: AppColors.borderOf(context)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.borderOf(context)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -270,8 +288,8 @@ class _HomeViewState extends State<HomeView> {
         Expanded(
           child: Text(
             title,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: AppColors.textPrimaryOf(context),
               fontSize: 19,
               fontWeight: FontWeight.bold,
             ),
@@ -294,7 +312,9 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildCategories() {
     final categories = _visibleCategories;
     if (categories.isEmpty) {
-      return const _EmptySearchResult(message: 'No matching categories.');
+      return _EmptySearchResult(
+        message: context.isArabic ? 'لم يتم العثور على تصنيفات.' : 'No matching categories.',
+      );
     }
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -322,7 +342,9 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildRecommendedMatches() {
     final matches = _visibleMatches;
     if (matches.isEmpty) {
-      return const _EmptySearchResult(message: 'No matching people found.');
+      return _EmptySearchResult(
+        message: context.isArabic ? 'لم يتم العثور على أشخاص متوافقين.' : 'No matching people found.',
+      );
     }
     return SizedBox(
       height: 194,
@@ -336,7 +358,7 @@ class _HomeViewState extends State<HomeView> {
             width: 250,
             child: _MatchCard(
               match: match,
-              onTap: () => context.go(
+              onTap: () => context.push(
                 AppRoutes.userProfile.replaceFirst(':id', match.id),
               ),
             ),
@@ -349,23 +371,22 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildTrendingSkills() {
     final skills = _visibleTrendingSkills;
     if (skills.isEmpty) {
-      return const _EmptySearchResult(message: 'No matching skills found.');
+      return _EmptySearchResult(
+        message: context.isArabic ? 'لم يتم العثور على مهارات.' : 'No matching skills.',
+      );
     }
-    return Column(
-      children: skills
-          .map(
-            (skill) => Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: _TrendingSkillTile(
-                skill: skill,
-                onTap: () {
-                  _searchController.text = skill.name;
-                  setState(() => _searchQuery = skill.name);
-                },
-              ),
-            ),
-          )
-          .toList(),
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: skills.length,
+      separatorBuilder: (context, index) => const SizedBox(height: 10),
+      itemBuilder: (context, index) {
+        final skill = skills[index];
+        return _TrendingSkillTile(
+          skill: skill,
+          onTap: () => context.go(AppRoutes.discover),
+        );
+      },
     );
   }
 }
@@ -378,8 +399,11 @@ class _CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.isArabic;
     return Material(
-      color: category.backgroundColor,
+      color: AppColors.isDark(context)
+          ? category.color.withValues(alpha: 0.18)
+          : category.backgroundColor,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
@@ -393,29 +417,29 @@ class _CategoryCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.8),
+                  color: AppColors.surfaceOf(context),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Icon(category.icon, color: category.color),
               ),
               const SizedBox(height: 20),
               Text(
-                category.title,
+                isArabic ? category.titleAr : category.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: AppColors.textPrimaryOf(context),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 5),
               Text(
-                category.subtitle,
+                isArabic ? category.subtitleAr : category.subtitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: AppColors.textSecondaryOf(context),
                   fontSize: 12,
                   height: 1.4,
                 ),
@@ -437,12 +461,16 @@ class _MatchCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.surface,
+      color: AppColors.surfaceOf(context),
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(18),
-        child: Padding(
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppColors.borderOf(context)),
+          ),
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -455,7 +483,7 @@ class _MatchCard extends StatelessWidget {
                     child: Text(
                       match.initials,
                       style: const TextStyle(
-                        color: AppColors.textPrimary,
+                        color: Colors.black87,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -469,8 +497,8 @@ class _MatchCard extends StatelessWidget {
                   const SizedBox(width: 4),
                   Text(
                     match.rating,
-                    style: const TextStyle(
-                      color: AppColors.textPrimary,
+                    style: TextStyle(
+                      color: AppColors.textPrimaryOf(context),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -481,8 +509,8 @@ class _MatchCard extends StatelessWidget {
                 match.name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.textPrimary,
+                style: TextStyle(
+                  color: AppColors.textPrimaryOf(context),
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
@@ -503,8 +531,8 @@ class _MatchCard extends StatelessWidget {
                 match.offering,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: AppColors.textSecondary,
+                style: TextStyle(
+                  color: AppColors.textSecondaryOf(context),
                   fontSize: 12,
                 ),
               ),
@@ -524,36 +552,45 @@ class _TrendingSkillTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.isArabic;
     return Material(
-      color: AppColors.surface,
+      color: AppColors.surfaceOf(context),
       borderRadius: BorderRadius.circular(16),
-      child: ListTile(
-        onTap: onTap,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        leading: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: AppColors.primarySoft,
-            borderRadius: BorderRadius.circular(13),
-          ),
-          child: const Icon(
-            Icons.trending_up_rounded,
-            color: AppColors.primary,
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.borderOf(context)),
         ),
-        title: Text(
-          skill.name,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
+        child: ListTile(
+          onTap: onTap,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          leading: Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.isDark(context)
+                  ? AppColors.primary.withValues(alpha: 0.3)
+                  : AppColors.primarySoft,
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: const Icon(
+              Icons.trending_up_rounded,
+              color: AppColors.primary,
+            ),
           ),
+          title: Text(
+            isArabic ? skill.nameAr : skill.name,
+            style: TextStyle(
+              color: AppColors.textPrimaryOf(context),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          subtitle: Text(
+            isArabic ? skill.learnersAr : skill.learners,
+            style: TextStyle(color: AppColors.textSecondaryOf(context), fontSize: 12),
+          ),
+          trailing: Icon(skill.icon, color: AppColors.iconOf(context)),
         ),
-        subtitle: Text(
-          skill.learners,
-          style: const TextStyle(color: AppColors.textSecondary, fontSize: 12),
-        ),
-        trailing: Icon(skill.icon, color: AppColors.icon),
       ),
     );
   }
@@ -570,7 +607,7 @@ class _EmptySearchResult extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Text(
         message,
-        style: const TextStyle(color: AppColors.textSecondary),
+        style: TextStyle(color: AppColors.textSecondaryOf(context)),
       ),
     );
   }
@@ -579,14 +616,18 @@ class _EmptySearchResult extends StatelessWidget {
 class _SkillCategory {
   const _SkillCategory({
     required this.title,
+    required this.titleAr,
     required this.subtitle,
+    required this.subtitleAr,
     required this.icon,
     required this.color,
     required this.backgroundColor,
   });
 
   final String title;
+  final String titleAr;
   final String subtitle;
+  final String subtitleAr;
   final IconData icon;
   final Color color;
   final Color backgroundColor;
@@ -615,11 +656,15 @@ class _MemberMatch {
 class _TrendingSkill {
   const _TrendingSkill({
     required this.name,
+    required this.nameAr,
     required this.learners,
+    required this.learnersAr,
     required this.icon,
   });
 
   final String name;
+  final String nameAr;
   final String learners;
+  final String learnersAr;
   final IconData icon;
 }

@@ -125,7 +125,7 @@ class _DiscoverViewState extends State<DiscoverView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.backgroundOf(context),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -193,7 +193,7 @@ class _DiscoverViewState extends State<DiscoverView> {
           onPressed: () => context.go(AppRoutes.notifications),
           tooltip: 'Notifications',
           style: IconButton.styleFrom(
-            backgroundColor: AppColors.surface,
+            backgroundColor: AppColors.surfaceOf(context),
             foregroundColor: AppColors.textPrimary,
             fixedSize: const Size(48, 48),
           ),
@@ -222,7 +222,7 @@ class _DiscoverViewState extends State<DiscoverView> {
                 icon: const Icon(Icons.close_rounded),
               ),
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: AppColors.surfaceOf(context),
         hintStyle: const TextStyle(color: AppColors.textMuted),
         prefixIconColor: AppColors.textMuted,
         contentPadding: const EdgeInsets.symmetric(vertical: 16),
@@ -232,7 +232,7 @@ class _DiscoverViewState extends State<DiscoverView> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.borderOf(context)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -291,18 +291,18 @@ class _DiscoverViewState extends State<DiscoverView> {
       decoration: InputDecoration(
         labelText: label,
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: AppColors.surfaceOf(context),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
           vertical: 12,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.borderOf(context)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: AppColors.borderOf(context)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -398,11 +398,11 @@ class _MemberResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.zero,
-      color: AppColors.surface,
+      color: AppColors.surfaceOf(context),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18),
-        side: const BorderSide(color: AppColors.border),
+        side: BorderSide(color: AppColors.borderOf(context)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -574,8 +574,8 @@ class _NoResults extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 36),
       decoration: BoxDecoration(
-        color: AppColors.surface,
-        border: Border.all(color: AppColors.border),
+        color: AppColors.surfaceOf(context),
+        border: Border.all(color: AppColors.borderOf(context)),
         borderRadius: BorderRadius.circular(18),
       ),
       child: const Column(
