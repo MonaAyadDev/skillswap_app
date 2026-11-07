@@ -6,4 +6,3 @@ export 'skill_model.dart';
 export 'user_model.dart';
 
 
-//عشان تشتخدمهم تكتب بس السطر ده import 'package:skillswap/core/models/models.dart';

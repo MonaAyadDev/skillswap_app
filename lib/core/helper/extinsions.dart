@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 extension Navigation on BuildContext {
-  // اي حاجه من النوع البيلدكونتكست هتشوف الوظايف الجديده دي و اختارنا النوع ده بسبب انه موجود ف كل الفيوتشرز اللي ف التطبيق
   Future pushNamed(String route) {
     return Navigator.pushNamed(this, route);
   }

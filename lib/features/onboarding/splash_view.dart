@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:skillswap/features/onboarding/onboarding_view.dart';
+import 'package:go_router/go_router.dart';
+import 'package:skillswap/core/constants/app_color.dart';
+import 'package:skillswap/core/routes/routes.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -16,21 +18,16 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void _navigateToNext() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          builder: (context) => const OnboardingView(),
-        ),
-      );
+      context.go(AppRoutes.onboarding);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF6C5CE7), // Main theme color
+      backgroundColor: AppColors.primary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,11 +39,18 @@ class _SplashViewState extends State<SplashView> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
               child: const Icon(
                 Icons.swap_horiz_rounded,
                 size: 60,
-                color: Color(0xFF6C5CE7),
+                color: AppColors.primary,
               ),
             ),
             const SizedBox(height: 24),
@@ -58,6 +62,15 @@ class _SplashViewState extends State<SplashView> {
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
                 letterSpacing: 1.2,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Share knowledge. Master skills.',
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.white70,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
