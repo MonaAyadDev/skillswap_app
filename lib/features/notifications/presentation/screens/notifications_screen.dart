@@ -45,7 +45,8 @@ class _NotificationsView extends StatelessWidget {
             builder: (context, state) {
               if (state.unreadCount == 0) return const SizedBox.shrink();
               return TextButton(
-                onPressed: () => context.read<NotificationsCubit>().markAllAsRead(),
+                onPressed: () =>
+                    context.read<NotificationsCubit>().markAllAsRead(),
                 child: Text(
                   context.isArabic ? 'تحديد الكل كمقروء' : 'Mark all read',
                   style: const TextStyle(
@@ -66,14 +67,32 @@ class _NotificationsView extends StatelessWidget {
             BlocBuilder<NotificationsCubit, NotificationsState>(
               builder: (context, state) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   child: Row(
                     children: [
-                      _buildFilterChip(context, context.isArabic ? 'الكل' : 'All', 'all', state.activeFilter == 'all'),
+                      _buildFilterChip(
+                        context,
+                        context.isArabic ? 'الكل' : 'All',
+                        'all',
+                        state.activeFilter == 'all',
+                      ),
                       const SizedBox(width: 8),
-                      _buildFilterChip(context, context.isArabic ? 'الطلبات' : 'Requests', 'request', state.activeFilter == 'request'),
+                      _buildFilterChip(
+                        context,
+                        context.isArabic ? 'الطلبات' : 'Requests',
+                        'request',
+                        state.activeFilter == 'request',
+                      ),
                       const SizedBox(width: 8),
-                      _buildFilterChip(context, context.isArabic ? 'الرسائل' : 'Messages', 'message', state.activeFilter == 'message'),
+                      _buildFilterChip(
+                        context,
+                        context.isArabic ? 'الرسائل' : 'Messages',
+                        'message',
+                        state.activeFilter == 'message',
+                      ),
                     ],
                   ),
                 );
@@ -107,7 +126,9 @@ class _NotificationsView extends StatelessWidget {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            context.isArabic ? 'لا توجد إشعارات هنا' : 'No notifications here',
+                            context.isArabic
+                                ? 'لا توجد إشعارات هنا'
+                                : 'No notifications here',
                             style: TextStyle(
                               color: AppColors.textPrimaryOf(context),
                               fontWeight: FontWeight.bold,
@@ -115,9 +136,17 @@ class _NotificationsView extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 4),
-                          Text(
-                            context.isArabic ? 'أنت على اطلاع دائم بكافة التبادلات!' : 'You are all caught up on your exchanges!',
-                            style: TextStyle(color: AppColors.textSecondaryOf(context), fontSize: 13),
+                          Flexible(
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              context.isArabic
+                                  ? 'أنت على اطلاع دائم بكافة التبادلات!'
+                                  : 'You are all caught up on your exchanges!',
+                              style: TextStyle(
+                                color: AppColors.textSecondaryOf(context),
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -221,10 +250,14 @@ class _NotificationTile extends StatelessWidget {
         if (notification.type == 'request') {
           context.push(AppRoutes.requests);
         } else if (notification.type == 'message') {
-          context.push(AppRoutes.chat.replaceFirst(
-            ':matchId',
-            notification.relatedId.isNotEmpty ? notification.relatedId : 'match_1',
-          ));
+          context.push(
+            AppRoutes.chat.replaceFirst(
+              ':matchId',
+              notification.relatedId.isNotEmpty
+                  ? notification.relatedId
+                  : 'match_1',
+            ),
+          );
         } else if (notification.type == 'match') {
           context.push(AppRoutes.matches);
         }
@@ -233,8 +266,8 @@ class _NotificationTile extends StatelessWidget {
         color: notification.isRead
             ? Colors.transparent
             : (AppColors.isDark(context)
-                ? AppColors.primary.withValues(alpha: 0.15)
-                : AppColors.primarySoft.withValues(alpha: 0.4)),
+                  ? AppColors.primary.withValues(alpha: 0.15)
+                  : AppColors.primarySoft.withValues(alpha: 0.4)),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,7 +276,9 @@ class _NotificationTile extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.isDark(context) ? iconBg.withValues(alpha: 0.2) : iconBg,
+                color: AppColors.isDark(context)
+                    ? iconBg.withValues(alpha: 0.2)
+                    : iconBg,
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: iconColor, size: 22),
@@ -256,7 +291,9 @@ class _NotificationTile extends StatelessWidget {
                   Text(
                     notification.title,
                     style: TextStyle(
-                      fontWeight: notification.isRead ? FontWeight.w600 : FontWeight.bold,
+                      fontWeight: notification.isRead
+                          ? FontWeight.w600
+                          : FontWeight.bold,
                       fontSize: 14.5,
                       color: AppColors.textPrimaryOf(context),
                     ),

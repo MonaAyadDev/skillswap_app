@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skillswap/core/constants/app_color.dart';
-import 'package:skillswap/core/constants/images_app.dart'; 
+import 'package:skillswap/core/constants/images_app.dart';
 import 'package:skillswap/core/di/service_locator.dart';
 import 'package:skillswap/core/routes/routes.dart';
 import 'package:skillswap/core/utils/validators.dart';
@@ -47,9 +47,9 @@ class _LoginViewState extends State<_LoginView> {
   void _submit() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthCubit>().login(
-            _emailController.text,
-            _passwordController.text,
-          );
+        _emailController.text,
+        _passwordController.text,
+      );
     }
   }
 
@@ -92,8 +92,9 @@ class _LoginViewState extends State<_LoginView> {
             if (state is AuthSuccess) {
               context.go(AppRoutes.home);
             } else if (state is AuthError) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             } else if (state is AuthResetSent) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Reset link sent to your email')),
@@ -121,7 +122,10 @@ class _LoginViewState extends State<_LoginView> {
                     const SizedBox(height: 8),
                     const Text(
                       'Continue your skill exchange journey with your peers.',
-                      style: TextStyle(color: AppColors.textSecondary, fontSize: 14),
+                      style: TextStyle(
+                        color: AppColors.textSecondary,
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 32),
                     const Text(
@@ -199,7 +203,10 @@ class _LoginViewState extends State<_LoginView> {
                         const SizedBox(width: 8),
                         const Text(
                           'Keep me active for swaps',
-                          style: TextStyle(fontSize: 13, color: AppColors.textPrimary),
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ],
                     ),
@@ -212,7 +219,12 @@ class _LoginViewState extends State<_LoginView> {
                     const SizedBox(height: 24),
                     Row(
                       children: const [
-                        Expanded(child: Divider(color: AppColors.border, thickness: 0.5)),
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
@@ -224,7 +236,12 @@ class _LoginViewState extends State<_LoginView> {
                             ),
                           ),
                         ),
-                        Expanded(child: Divider(color: AppColors.border, thickness: 0.5)),
+                        Expanded(
+                          child: Divider(
+                            color: AppColors.border,
+                            thickness: 0.5,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -233,9 +250,24 @@ class _LoginViewState extends State<_LoginView> {
                       spacing: 12,
                       runSpacing: 12,
                       children: [
-                        BuildSocialButton(assetPath: AppImages.google, label: 'Google', isSvg: true, onTap: () {}),
-                        BuildSocialButton(assetPath: AppImages.apple, label: 'Apple', isSvg: false, onTap: () {}),
-                        BuildSocialButton(assetPath: AppImages.linkedin, label: 'LinkedIn', isSvg: true, onTap: () {}),
+                        BuildSocialButton(
+                          assetPath: AppImages.google,
+                          label: 'Google',
+                          isSvg: true,
+                          onTap: () {},
+                        ),
+                        BuildSocialButton(
+                          assetPath: AppImages.apple,
+                          label: 'Apple',
+                          isSvg: false,
+                          onTap: () {},
+                        ),
+                        BuildSocialButton(
+                          assetPath: AppImages.linkedin,
+                          label: 'LinkedIn',
+                          isSvg: true,
+                          onTap: () {},
+                        ),
                       ],
                     ),
                     const SizedBox(height: 32),
@@ -244,7 +276,10 @@ class _LoginViewState extends State<_LoginView> {
                       children: [
                         const Text(
                           "Don't have an account? ",
-                          style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                          style: TextStyle(
+                            color: AppColors.textSecondary,
+                            fontSize: 13,
+                          ),
                         ),
                         GestureDetector(
                           onTap: () => context.go(AppRoutes.signUp),
